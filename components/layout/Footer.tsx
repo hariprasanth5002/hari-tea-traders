@@ -1,8 +1,13 @@
+"use client";
+
+import React, { useState } from "react";
 import Link from "next/link";
 import { Leaf, MapPin, Phone, Mail, ArrowRight } from "lucide-react";
 import { FaInstagram } from "react-icons/fa";
+import ShippingTermsModal from "@/components/terms/ShippingTermsModal";
 
 export default function Footer() {
+  const [isTermsOpen, setIsTermsOpen] = useState(false);
   return (
     <footer className="bg-forest-950 text-cream pt-20 pb-10 border-t-4 border-gold-500">
       <div className="container mx-auto px-4 md:px-6">
@@ -103,11 +108,21 @@ export default function Footer() {
             &copy; {new Date().getFullYear()} Hari Tea Traders. All rights reserved.
           </p>
           <div className="flex items-center gap-6 text-sm text-forest-100/50">
+            <button 
+              onClick={() => setIsTermsOpen(true)}
+              className="hover:text-gold-400 transition-colors"
+            >
+              Shipping & Terms
+            </button>
             <Link href="/privacy" className="hover:text-gold-400 transition-colors">Privacy Policy</Link>
-            <Link href="/terms" className="hover:text-gold-400 transition-colors">Terms of Service</Link>
           </div>
         </div>
       </div>
+      
+      <ShippingTermsModal 
+        isOpen={isTermsOpen}
+        onClose={() => setIsTermsOpen(false)}
+      />
     </footer>
   );
 }

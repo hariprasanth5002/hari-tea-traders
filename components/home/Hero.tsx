@@ -32,7 +32,7 @@ export default function Hero() {
       </motion.div>
 
       {/* Content */}
-      <div className="container relative z-10 px-6 sm:px-8 md:px-12 mx-auto flex flex-col items-center text-center mt-20">
+      <div className="container relative z-10 px-6 sm:px-8 md:px-12 mx-auto flex flex-col items-center text-center mt-4 md:mt-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -47,7 +47,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="font-heading text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold text-cream mb-6 max-w-5xl leading-tight text-balance px-2"
+          className="font-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-cream mb-6 max-w-5xl leading-tight px-2"
         >
           Premium <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-300 to-gold-600">Hill Station</span> Products
         </motion.h1>
@@ -56,7 +56,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="text-forest-100/90 text-base sm:text-lg md:text-xl max-w-2xl mb-10 font-light leading-relaxed px-4 text-balance"
+          className="text-forest-100/90 text-base sm:text-lg md:text-xl max-w-2xl mb-8 font-light leading-relaxed px-4"
         >
           Sourced directly from plantations, tribal communities, and local farmers in the misty hills of Valparai.
         </motion.p>
@@ -65,7 +65,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="mt-12 flex flex-wrap justify-center gap-4 sm:gap-6"
+          className="mt-4 md:mt-8 flex flex-wrap justify-center gap-4 sm:gap-6"
         >
           <Link
             href="/products"

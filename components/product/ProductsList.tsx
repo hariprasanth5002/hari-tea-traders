@@ -80,6 +80,7 @@ export default function ProductsList({ products }: ProductsListProps) {
         product={selectedProduct}
         isOpen={!!selectedProduct}
         onClose={() => setSelectedProduct(null)}
+        onProductSelect={setSelectedProduct}
       />
     </>
   );

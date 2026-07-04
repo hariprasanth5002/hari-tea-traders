@@ -1,5 +1,6 @@
 import Hero from "@/components/home/Hero";
 import Story from "@/components/home/Story";
+import WhyValparai from "@/components/home/WhyValparai";
 import Categories from "@/components/home/Categories";
 import WholesaleCTA from "@/components/home/WholesaleCTA";
 import InstagramCTA from "@/components/home/InstagramCTA";
@@ -10,6 +11,7 @@ export default function Home() {
     <>
       <Hero />
       <Story />
+      <WhyValparai />
       <Categories />
       <WholesaleCTA />
       

@@ -3,6 +3,14 @@ export interface PackSize {
   price: number;
 }
 
+export interface ProductStoryDetails {
+  origin?: string;
+  taste?: string;
+  aroma?: string;
+  freshness?: string;
+  processing?: string;
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -17,6 +25,8 @@ export interface Product {
   featured: boolean;
   seasonal: boolean;
   story?: string;
+  storyDetails?: ProductStoryDetails;
+  whyChooseUs?: string[];
   benefits?: string[];
   sourceInfo?: string;
   wholesaleDetails?: string;
@@ -41,7 +51,21 @@ export const products: Product[] = [
     ],
     featured: true,
     seasonal: false,
-    story: "For generations, the Manika estate has been renowned for its premium quality leaves, nurtured by the unique misty climate of Valparai. Handpicked at sunrise and processed using traditional CTC methods to preserve its rich aroma.",
+    story: "For generations, the Manika estate has been renowned for its premium quality leaves, nurtured by the unique misty climate of Valparai. Handpicked at sunrise and processed using traditional methods, every cup tells the story of the hills.",
+    storyDetails: {
+      origin: "Cultivated in the high-altitude Manika Tea Estate, wrapped in the perennial mists of Valparai.",
+      taste: "Robust, full-bodied with a classic strong briskness.",
+      aroma: "Earthy and deeply fragrant, capturing the essence of the morning dew.",
+      freshness: "Packed at the source within days of harvesting to seal in volatile oils.",
+      processing: "Orthodox and CTC blending methods passed down through generations."
+    },
+    whyChooseUs: [
+      "Direct from Valparai plantations",
+      "Freshly packed in aroma-lock bags",
+      "No artificial colors or preservatives",
+      "Premium handpicked quality leaves",
+      "Trusted family business for 15+ years"
+    ],
     benefits: [
       "Rich in antioxidants that protect your cells",
       "Boosts energy and alertness naturally",
@@ -69,7 +93,21 @@ export const products: Product[] = [
     ],
     featured: true,
     seasonal: false,
-    story: "Grown near the cascading waterfalls of Valparai, these tea leaves receive optimal moisture and sunlight, creating a highly fragrant, smooth tea leaf that is sought after by exporters.",
+    story: "Grown near the cascading waterfalls of Valparai, these tea leaves receive optimal moisture and sunlight. The constant mist from the falls creates a micro-climate that yields a highly fragrant, incredibly smooth tea leaf sought after by exporters.",
+    storyDetails: {
+      origin: "Harvested from estates bordering the majestic waterfalls of Valparai.",
+      taste: "Exceptionally smooth finish with zero harsh bitterness.",
+      aroma: "Delicate and floral, reflecting the pristine waterfall environment.",
+      freshness: "Vacuum packed directly from the estate.",
+      processing: "Gentle rolling and natural oxidation to preserve delicate flavors."
+    },
+    whyChooseUs: [
+      "Export-grade premium selection",
+      "Grown in unique waterfall micro-climate",
+      "100% natural and unblended",
+      "Perfect for premium black tea",
+      "Consistent high-quality standards"
+    ],
     benefits: [
       "Extremely smooth flavor without harsh bitterness",
       "Aromatic oils help relieve stress and promote relaxation",
@@ -97,7 +135,21 @@ export const products: Product[] = [
     ],
     featured: false,
     seasonal: false,
-    story: "Our BOP (Broken Orange Pekoe) grade represents a traditional choice for tea stalls and families who love a strong kick in the morning. Made from fine broken leaf particles that brew rapidly.",
+    story: "Our BOP (Broken Orange Pekoe) grade represents a traditional choice for tea stalls and families who love a strong kick in the morning. Made from fine broken leaf particles that brew rapidly, bringing the robust spirit of the hills straight to your cup.",
+    storyDetails: {
+      origin: "Blended from selected smallholder tea gardens across the Valparai hills.",
+      taste: "Bold, brisk, and perfectly astringent for authentic Indian Chai.",
+      aroma: "Strong, malty fragrance that awakens the senses.",
+      freshness: "Stored in climate-controlled facilities to maintain punch.",
+      processing: "Precision crushed, torn, and curled (CTC) for maximum flavor extraction."
+    },
+    whyChooseUs: [
+      "Yields deep golden-orange color",
+      "Economical without compromising quality",
+      "Quick brewing time",
+      "Perfect base for masala chai",
+      "Direct from local farmers"
+    ],
     benefits: [
       "Quick brewing time, highly efficient",
       "Strong flavor profile that pairs perfectly with milk and spices",
@@ -125,7 +177,21 @@ export const products: Product[] = [
     ],
     featured: true,
     seasonal: false,
-    story: "We combine our premium CTC tea leaves with crushed real spices sourced directly from local Valparai farms. No artificial flavoring or synthetic chemicals are added.",
+    story: "We combine our premium CTC tea leaves with crushed real spices sourced directly from local Valparai farms. Instead of artificial essences, you taste the genuine warmth of hill-grown ginger, cardamom, and mountain spices in every sip.",
+    storyDetails: {
+      origin: "Valparai tea leaves blended with organic spices from regional spice gardens.",
+      taste: "Rich and layered, balancing robust tea with warming natural spices.",
+      aroma: "An intoxicating blend of pure tea and freshly ground spices.",
+      freshness: "Spices are crushed and blended just before packaging.",
+      processing: "Artisanal blending of premium CTC tea with raw, sun-dried spices."
+    },
+    whyChooseUs: [
+      "Real crushed spices, no artificial flavors",
+      "Multiple health and immunity benefits",
+      "Hand-blended in small batches",
+      "Premium quality green tea leaves",
+      "Authentic Valparai heritage"
+    ],
     benefits: [
       "Boosts immunity with anti-inflammatory ginger and cardamom",
       "Green tea option helps with fat oxidation and weight management",
@@ -153,7 +219,21 @@ export const products: Product[] = [
     ],
     featured: true,
     seasonal: false,
-    story: "In the Valparai hills, coffee was traditionally sweetened with native palm and cane jaggery. We bring this healthy, rustic heritage directly to you with carefully roasted Robusta & Arabica beans mixed with organic jaggery.",
+    story: "In the Valparai hills, coffee was traditionally sweetened with native palm and cane jaggery. We bring this healthy, rustic heritage directly to you. Carefully roasted Robusta and Arabica beans are intimately mixed with organic jaggery, offering a guilt-free morning ritual.",
+    storyDetails: {
+      origin: "Coffee from shade-grown estates in Valparai, jaggery from traditional Salem farmers.",
+      taste: "Deep, robust coffee notes with a pleasant, earthy caramel undertone.",
+      aroma: "Roasted coffee mingling with the sweet, rustic scent of warm jaggery.",
+      freshness: "Blended in small batches to prevent moisture absorption.",
+      processing: "Medium-dark roast coffee delicately powdered with crystallised organic jaggery."
+    },
+    whyChooseUs: [
+      "100% white sugar-free",
+      "Rich in natural minerals (iron, magnesium)",
+      "Traditional South Indian health recipe",
+      "Ready to brew instantly",
+      "Perfect balance of bitter and sweet"
+    ],
     benefits: [
       "100% white-sugar free; healthy sweetener alternative",
       "Jaggery provides essential minerals like iron and magnesium",
@@ -181,7 +261,21 @@ export const products: Product[] = [
     ],
     featured: false,
     seasonal: false,
-    story: "Our coffee beans are shade-grown under a canopy of forest trees in Valparai, alongside orange trees and pepper vines. This slow ripening process imparts a unique, complex flavor profile to the bean.",
+    story: "Our coffee beans are shade-grown under a dense canopy of forest trees in Valparai, alongside orange trees and pepper vines. This slow, natural ripening process imparts a unique, complex flavor profile to the bean that cannot be rushed.",
+    storyDetails: {
+      origin: "Single-origin beans from sustainable, shaded forest estates in Valparai.",
+      taste: "Intensely bold, full-bodied with notes of dark chocolate and roasted nuts.",
+      aroma: "Heady, rich, and deeply comforting.",
+      freshness: "Freshly roasted and ground upon order confirmation.",
+      processing: "Washed and sun-dried beans, medium-dark roasted to perfection."
+    },
+    whyChooseUs: [
+      "Shade-grown under natural forest canopy",
+      "100% pure coffee, no chicory fillers",
+      "Freshly ground before dispatch",
+      "Low acidity, easy on the stomach",
+      "Supports sustainable farming"
+    ],
     benefits: [
       "Rich in aroma and high-quality caffeine",
       "Shade-grown coffee is lower in acidity compared to sun-grown varieties",
@@ -210,7 +304,21 @@ export const products: Product[] = [
     ],
     featured: true,
     seasonal: false,
-    story: "Pepper vines are grown climbing the shade trees of the tea and coffee estates of Valparai. Hand-harvested by local workers and solar-dried to secure its high piperine content.",
+    story: "Pepper vines are grown climbing the tall shade trees of the tea and coffee estates of Valparai. Hand-harvested by local workers climbing traditional bamboo ladders, these berries are solar-dried naturally to secure their intense heat and high piperine content.",
+    storyDetails: {
+      origin: "Grown naturally on shade trees within high-altitude Valparai plantations.",
+      taste: "Sharp, biting, and intensely warm with a lingering spicy finish.",
+      aroma: "Pungent, woody, and intensely fragrant.",
+      freshness: "Packed whole to retain essential oils until you grind them.",
+      processing: "Hand-plucked and naturally sun-dried without chemical washes."
+    },
+    whyChooseUs: [
+      "Exceptionally high piperine content",
+      "Bold, unsorted premium size berries",
+      "Zero chemical treatments or polish",
+      "Sustainably harvested",
+      "Packed with natural essential oils"
+    ],
     benefits: [
       "High in piperine, which boosts nutrient absorption",
       "Strong anti-inflammatory and antioxidant properties",
@@ -238,7 +346,21 @@ export const products: Product[] = [
     ],
     featured: false,
     seasonal: false,
-    story: "Valparai's cool, humid valleys are perfect for spice cultivation. These spices are hand-sorted to extract only the premium grades, ensuring intense aroma in small quantities.",
+    story: "Valparai's cool, humid valleys are perfect for spice cultivation. These spices are carefully hand-sorted to extract only the premium grades. Every pod, bud, and bark carries the undiluted, pristine aroma of the Western Ghats forests.",
+    storyDetails: {
+      origin: "Certified organic smallholder farms in Valparai and surrounding forest boundaries.",
+      taste: "Intensely flavorful; sweet cinnamon, fiery clove, and floral cardamom.",
+      aroma: "A breathtaking burst of pure, unextracted essential oils.",
+      freshness: "Vacuum packed in small batches to prevent oil evaporation.",
+      processing: "Hand-picked, meticulously sorted by size, and shade-dried."
+    },
+    whyChooseUs: [
+      "8mm+ premium grade cardamom",
+      "High oil-content unextracted cloves",
+      "True aromatic cinnamon bark",
+      "Pesticide-free cultivation",
+      "Vacuum sealed for ultimate freshness"
+    ],
     benefits: [
       "Cardamom is a natural breath freshener and detoxifier",
       "Cloves contain eugenol, which has strong antiseptic properties",
@@ -260,13 +382,27 @@ export const products: Product[] = [
     description: "Pure turmeric powder with exceptionally high curcumin content. Also available in Kasthuri Turmeric variety, prized for cosmetic and skincare application.",
     shortDescription: "Curcumin-rich culinary turmeric and cosmetic Kasthuri turmeric.",
     availablePackSizes: [
-      { size: "250g", price: 120 },
-      { size: "500g", price: 220 },
-      { size: "1kg", price: 400 }
+      { size: "250g", price: 220 },
+      { size: "500g", price: 400 },
+      { size: "1kg", price: 780 }
     ],
     featured: false,
     seasonal: false,
-    story: "Cultivated in forest clearings using traditional tribal practices. The roots are boiled, sun-dried, and ground in local micro-mills without any starch fillers, coloring, or polishing chemicals.",
+    story: "Cultivated in forest clearings using traditional tribal practices. The roots are boiled, sun-dried, and ground in local micro-mills without any starch fillers, coloring, or polishing chemicals. This is turmeric in its purest, most potent form.",
+    storyDetails: {
+      origin: "Harvested by tribal farmers around the forest boundaries of Valparai Tiger Reserve.",
+      taste: "Warm, earthy, and slightly bitter with a peppery depth.",
+      aroma: "Rich, pungent, and distinctly earthy.",
+      freshness: "Ground in small batches throughout the year.",
+      processing: "Traditional boiling, extensive sun-drying, and slow cold-grinding."
+    },
+    whyChooseUs: [
+      "Exceptionally high natural curcumin",
+      "Zero artificial colors or starch fillers",
+      "Sourced from tribal forest farmers",
+      "Available in both culinary and cosmetic grades",
+      "Traditional cold-grinding process"
+    ],
     benefits: [
       "Powerful natural anti-inflammatory agent",
       "High curcumin content boosts immunity",
@@ -294,7 +430,21 @@ export const products: Product[] = [
     ],
     featured: true,
     seasonal: false,
-    story: "Collected by native Kadar and Malasar tribal communities from giant forest trees and rock cliffs. Since it is multi-floral and completely raw, its color, viscosity, and taste will vary slightly depending on the season.",
+    story: "Collected by native Kadar and Malasar tribal communities who scale giant forest trees and rock cliffs. This honey is completely raw and multi-floral, meaning it carries the nectar of thousands of wild medicinal flowers deep inside the Anamalai Tiger Reserve.",
+    storyDetails: {
+      origin: "Deep forest settlements in the Anamalai Tiger Reserve region.",
+      taste: "Complex, wildly floral with varying notes of caramel and wood depending on the season.",
+      aroma: "Intensely floral and rich with the scent of wild pollen.",
+      freshness: "Raw, unpasteurized, and bottled without micro-filtering.",
+      processing: "Sustainably harvested and naturally strained through cloth."
+    },
+    whyChooseUs: [
+      "100% Raw and Unpasteurized",
+      "Collected by indigenous tribal honey hunters",
+      "Contains natural wild pollen and enzymes",
+      "Zero added sugar or corn syrup",
+      "Sustainably harvested protecting bee colonies"
+    ],
     benefits: [
       "Rich in wild pollen, minerals, and natural enzymes",
       "Natural cough suppressant and throat soothing remedy",
@@ -322,7 +472,21 @@ export const products: Product[] = [
     ],
     featured: false,
     seasonal: false,
-    story: "Distilled locally using traditional wood-fired steam stills. Leaves from Nilgiri and Blue Gum trees around Valparai are harvested sustainably by forest dwellers to extract these medicinal oils.",
+    story: "Distilled locally using traditional wood-fired steam stills. Leaves from ancient Nilgiri and Blue Gum trees around Valparai are harvested sustainably by forest dwellers to extract these potent, medicinal oils.",
+    storyDetails: {
+      origin: "Distilled at local cooperative cottage units from native Valparai Blue Gum trees.",
+      taste: "For external use only. Do not ingest.",
+      aroma: "Piercingly fresh, camphorous, and deeply clearing.",
+      freshness: "Stored in dark amber glass to prevent UV degradation.",
+      processing: "Traditional slow steam distillation over wood fires."
+    },
+    whyChooseUs: [
+      "100% pure steam-distilled extracts",
+      "No synthetic fragrances or mineral oils",
+      "Made by local cooperative cottage units",
+      "Highly concentrated and therapeutic",
+      "Traditional wood-fired distillation"
+    ],
     benefits: [
       "Clears nasal passages and eases breathing during colds",
       "Relieves muscle, joint, and headache pain when massaged",
@@ -350,7 +514,21 @@ export const products: Product[] = [
     ],
     featured: false,
     seasonal: true,
-    story: "Avocado trees are planted as shade crops in Valparai coffee estates. Sustained by high altitude mist, the fruit has a rich, creamy, and buttery texture that is superior to plains-grown varieties.",
+    story: "Avocado trees are planted as shade companions in Valparai coffee estates. Sustained entirely by high altitude mist and rainfall, the fruit develops a rich, creamy, and buttery texture that is vastly superior to chemically-forced plains-grown varieties.",
+    storyDetails: {
+      origin: "Harvested from coffee estate companion trees in Valparai hills (Seasonal: July to October).",
+      taste: "Incredibly rich, buttery, and delicately nutty.",
+      aroma: "Subtle, fresh, and green.",
+      freshness: "Plucked only upon order confirmation to ensure transit viability.",
+      processing: "Raw, unwashed natural fruit."
+    },
+    whyChooseUs: [
+      "Grown naturally without chemical fertilizers",
+      "High-altitude climate produces creamier fruit",
+      "Harvested at peak maturity",
+      "Supports local estate workers",
+      "Delivered farm-fresh"
+    ],
     benefits: [
       "High in heart-healthy monounsaturated fats",
       "Excellent source of dietary fiber, vitamins K, C, E, and B-6",
@@ -378,7 +556,21 @@ export const products: Product[] = [
     ],
     featured: true,
     seasonal: false,
-    story: "Made in small batches using premium cocoa grown on the foothills of the Western Ghats. Our home chocolate makers blend it with rich milk solids and local nuts.",
+    story: "Made in small batches using premium cocoa grown on the foothills of the Western Ghats. Our local home chocolate makers blend it with rich milk solids and roasted local nuts, crafting a nostalgic hill-station delicacy.",
+    storyDetails: {
+      origin: "Prepared at local home-cottage confectioneries in Valparai town.",
+      taste: "Velvety smooth, melting in the mouth with rich cocoa intensity.",
+      aroma: "Sweet, roasted cocoa with hints of vanilla and nuts.",
+      freshness: "Made in small, continuous batches to ensure freshness.",
+      processing: "Traditional tempering and hand-molding by local artisans."
+    },
+    whyChooseUs: [
+      "Handcrafted by local cottage artisans",
+      "Premium cocoa from the Western Ghats",
+      "No cheap vegetable fat fillers",
+      "Loaded with real roasted nuts",
+      "Perfect souvenir from the hills"
+    ],
     benefits: [
       "Dark chocolate variants are high in flavonoids and antioxidants",
       "Perfect premium gift from the hills of Valparai",
