@@ -148,90 +148,92 @@ export default function ProductDetailsModal({
           </div>
 
           {/* Sticky Bottom Actions */}
-          <div className="sticky bottom-0 p-4 md:p-5 bg-white/95 backdrop-blur-md border-t border-forest-100 shadow-[0_-10px_30px_rgba(0,0,0,0.05)] z-20 shrink-0">
-            {/* Weight Selection */}
-            <div className="mb-3">
-              <span className="text-xs font-bold text-forest-800 uppercase tracking-wider block mb-1">
-                Select Size:
-              </span>
-              <div className="flex flex-wrap gap-2">
-                {product.availablePackSizes.map((packSize) => (
-                  <button
-                    key={packSize.size}
-                    type="button"
-                    onClick={() => setSelectedSize(packSize)}
-                    className={`px-4 py-2 rounded-lg text-xs font-bold transition-all border ${
-                      selectedSize.size === packSize.size
-                        ? "bg-forest-900 border-forest-900 text-white shadow-md scale-[1.02]"
-                        : "bg-forest-50/60 border-forest-100 text-forest-800 hover:bg-forest-100"
-                    }`}
-                  >
-                    {packSize.size}
-                  </button>
-                ))}
-              </div>
-            </div>
+          <div className="sticky bottom-0 p-3 md:p-4 bg-white/95 backdrop-blur-md border-t border-forest-100 shadow-[0_-10px_30px_rgba(0,0,0,0.05)] z-20 shrink-0">
+            <div className="flex flex-col lg:flex-row gap-3 justify-between lg:items-center">
+              
+              {/* Top/Left Row: Size & Qty */}
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="flex items-center gap-2">
+                  <span className="text-[10px] font-bold text-forest-800 uppercase tracking-wider">
+                    Size:
+                  </span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {product.availablePackSizes.map((packSize) => (
+                      <button
+                        key={packSize.size}
+                        type="button"
+                        onClick={() => setSelectedSize(packSize)}
+                        className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all border ${
+                          selectedSize.size === packSize.size
+                            ? "bg-forest-900 border-forest-900 text-white shadow-md"
+                            : "bg-forest-50/60 border-forest-100 text-forest-800 hover:bg-forest-100"
+                        }`}
+                      >
+                        {packSize.size}
+                      </button>
+                    ))}
+                  </div>
+                </div>
 
-            {/* Quantity and Price */}
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4">
-              <div>
-                <span className="text-xs text-charcoal/50 block font-semibold">Total Price</span>
-                <div className="flex items-end gap-2">
-                  <span className="text-2xl font-heading font-extrabold text-forest-950 leading-none">
-                    ₹{selectedSize.price * quantity}
+                <div className="flex items-center bg-forest-50 rounded-lg p-0.5 border border-forest-100 shadow-inner">
+                  <button
+                    onClick={handleDecrease}
+                    type="button"
+                    className="w-8 h-8 rounded-md flex items-center justify-center text-forest-800 hover:bg-white hover:shadow-sm"
+                  >
+                    <Minus className="w-3 h-3" />
+                  </button>
+                  <span className="w-8 text-center text-sm font-bold text-forest-950">
+                    {quantity}
                   </span>
-                  <span className="text-xs text-forest-700 font-medium mb-1">
-                    (₹{selectedSize.price} / {selectedSize.size})
-                  </span>
+                  <button
+                    onClick={handleIncrease}
+                    type="button"
+                    className="w-8 h-8 rounded-md flex items-center justify-center text-forest-800 hover:bg-white hover:shadow-sm"
+                  >
+                    <Plus className="w-3 h-3" />
+                  </button>
                 </div>
               </div>
 
-              <div className="flex items-center bg-forest-50 rounded-xl p-1 border border-forest-100 shadow-inner">
-                <button
-                  onClick={handleDecrease}
-                  type="button"
-                  className="w-10 h-10 rounded-lg flex items-center justify-center text-forest-800 hover:bg-white hover:shadow-sm transition-all"
-                  aria-label="Decrease quantity"
-                >
-                  <Minus className="w-4 h-4" />
-                </button>
-                <span className="w-10 text-center text-base font-bold text-forest-950">
-                  {quantity}
-                </span>
-                <button
-                  onClick={handleIncrease}
-                  type="button"
-                  className="w-10 h-10 rounded-lg flex items-center justify-center text-forest-800 hover:bg-white hover:shadow-sm transition-all"
-                  aria-label="Increase quantity"
-                >
-                  <Plus className="w-4 h-4" />
-                </button>
+              {/* Bottom/Right Row: Price & Actions */}
+              <div className="flex items-center justify-between lg:justify-end gap-3">
+                <div className="flex flex-col items-start lg:items-end">
+                  <span className="text-[10px] text-charcoal/50 font-semibold leading-none mb-1">
+                    Total
+                  </span>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-xl font-heading font-extrabold text-forest-950 leading-none">
+                      ₹{selectedSize.price * quantity}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex gap-2">
+                  <button
+                    onClick={handleAddToCart}
+                    type="button"
+                    className={`px-3 py-2 md:px-4 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 border ${
+                      cartSuccess
+                        ? "bg-green-600 border-green-600 text-white"
+                        : "bg-white border-forest-200 hover:border-forest-900 text-forest-950"
+                    }`}
+                  >
+                    <ShoppingCart className="w-4 h-4" />
+                    <span className="hidden sm:inline">{cartSuccess ? "Added" : "Add"}</span>
+                  </button>
+
+                  <button
+                    onClick={handleWhatsAppOrder}
+                    type="button"
+                    className="px-4 py-2 bg-[#25D366] hover:bg-[#1ebd5b] text-white rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 shadow-md hover:shadow-lg hover:-translate-y-0.5"
+                  >
+                    <FaWhatsapp className="w-4 h-4" />
+                    <span>Order <span className="hidden sm:inline">on WhatsApp</span></span>
+                  </button>
+                </div>
               </div>
-            </div>
 
-            {/* Actions */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-              <button
-                onClick={handleAddToCart}
-                type="button"
-                className={`sm:col-span-1 py-3 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 border ${
-                  cartSuccess
-                    ? "bg-green-600 border-green-600 text-white"
-                    : "bg-white border-forest-200 hover:border-forest-900 text-forest-950 hover:bg-forest-50"
-                }`}
-              >
-                <ShoppingCart className="w-4 h-4" />
-                {cartSuccess ? "Added" : "Add to Cart"}
-              </button>
-
-              <button
-                onClick={handleWhatsAppOrder}
-                type="button"
-                className="sm:col-span-2 py-3 bg-[#25D366] hover:bg-[#1ebd5b] text-white rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
-              >
-                <FaWhatsapp className="w-5 h-5" />
-                Order on WhatsApp
-              </button>
             </div>
           </div>
           
