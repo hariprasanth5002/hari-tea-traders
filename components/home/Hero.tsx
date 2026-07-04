@@ -74,7 +74,7 @@ export default function Hero() {
             Explore Our Products
           </Link>
           <Link
-            href="/contact"
+            href="/wholesale"
             className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white border border-white/20 rounded-full font-bold text-base sm:text-lg transition-all flex items-center justify-center gap-2"
           >
             Contact for Wholesale
