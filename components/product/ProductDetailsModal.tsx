@@ -123,8 +123,6 @@ export default function ProductDetailsModal({
                 {product.name}
               </h2>
             </div>
-
-            <TrustIndicators />
             
             <ProductStory 
               story={product.story} 
