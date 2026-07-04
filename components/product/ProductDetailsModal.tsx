@@ -9,7 +9,6 @@ import { getWhatsAppLink, getSingleProductWhatsAppMessage } from "@/components/w
 import AnimatedModal from "@/components/shared/AnimatedModal";
 import ProductStory from "./ProductStory";
 import ProductBenefits from "./ProductBenefits";
-import TrustIndicators from "./TrustIndicators";
 import ProductRecommendations from "./ProductRecommendations";
 
 interface ProductDetailsModalProps {
