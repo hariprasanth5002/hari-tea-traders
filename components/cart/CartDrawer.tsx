@@ -84,7 +84,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               ) : (
                 cartItems.map((item) => (
                   <div
-                    key={`${item.productId}-${item.selectedPackSize}`}
+                    key={`${item.productId}-${item.selectedVariant || "default"}-${item.selectedPackSize}`}
                     className="bg-white rounded-2xl p-4 shadow-sm border border-forest-50 flex gap-4 hover:shadow-md transition-shadow"
                   >
                     {/* Item Image */}
@@ -104,23 +104,32 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                             {item.productName}
                           </h4>
                           <button
-                            onClick={() => removeFromCart(item.productId, item.selectedPackSize)}
+                            onClick={() => removeFromCart(item.productId, item.selectedPackSize, item.selectedVariant)}
                             className="text-red-500 hover:text-red-700 shrink-0"
                             aria-label={`Remove ${item.productName}`}
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>
                         </div>
-                        <span className="inline-block mt-1 px-2.5 py-0.5 rounded-full bg-gold-100 text-[10px] font-bold text-gold-700 uppercase tracking-wider">
-                          {item.selectedPackSize}
-                        </span>
+
+                        {/* Variant and Pack Size badges */}
+                        <div className="flex flex-wrap items-center gap-1.5 mt-1.5">
+                          {item.selectedVariant && (
+                            <span className="inline-block px-2 py-0.5 rounded-full bg-forest-100 text-forest-800 text-[10px] font-bold">
+                              {item.variantLabel ? `${item.variantLabel}: ` : ""}{item.selectedVariant}
+                            </span>
+                          )}
+                          <span className="inline-block px-2.5 py-0.5 rounded-full bg-gold-100 text-[10px] font-bold text-gold-700 uppercase tracking-wider">
+                            {item.selectedPackSize}
+                          </span>
+                        </div>
                       </div>
 
                       {/* Quantity Selector & Price */}
                       <div className="flex justify-between items-end mt-2">
                         <div className="flex items-center bg-forest-50 rounded-lg p-0.5 border border-forest-100/10">
                           <button
-                            onClick={() => updateQuantity(item.productId, item.selectedPackSize, item.quantity - 1)}
+                            onClick={() => updateQuantity(item.productId, item.selectedPackSize, item.quantity - 1, item.selectedVariant)}
                             className="w-7 h-7 flex items-center justify-center text-forest-800 hover:bg-forest-100 rounded"
                           >
                             <Minus className="w-3 h-3" />
@@ -129,7 +138,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                             {item.quantity}
                           </span>
                           <button
-                            onClick={() => updateQuantity(item.productId, item.selectedPackSize, item.quantity + 1)}
+                            onClick={() => updateQuantity(item.productId, item.selectedPackSize, item.quantity + 1, item.selectedVariant)}
                             className="w-7 h-7 flex items-center justify-center text-forest-800 hover:bg-forest-100 rounded"
                           >
                             <Plus className="w-3 h-3" />
@@ -158,27 +167,17 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
 
                 {/* Info Text */}
                 <p className="text-xxs text-charcoal/50 leading-relaxed text-center">
-                  Minimum total order value is 500g. Shipping fee will be confirmed on WhatsApp.
+                  Minimum retail shipping quantity across Tamil Nadu is 500g. Direct WhatsApp dispatch.
                 </p>
 
-                {/* Checkout Buttons */}
-                <div className="space-y-2">
-                  <Link
-                    href="/cart"
-                    onClick={onClose}
-                    className="w-full bg-forest-900 hover:bg-forest-950 text-white py-4 rounded-2xl font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all"
-                  >
-                    View Cart & Checkout
-                    <ArrowRight className="w-4 h-4" />
-                  </Link>
-
-                  <button
-                    onClick={onClose}
-                    className="w-full bg-transparent hover:bg-forest-50/50 text-forest-900 py-3 rounded-2xl font-bold text-xs uppercase tracking-widest text-center transition-all"
-                  >
-                    Continue Shopping
-                  </button>
-                </div>
+                {/* Checkout Link */}
+                <Link
+                  href="/cart"
+                  onClick={onClose}
+                  className="w-full py-4 bg-forest-900 hover:bg-forest-950 text-white rounded-2xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all"
+                >
+                  Proceed to Checkout <ArrowRight className="w-4 h-4" />
+                </Link>
               </div>
             )}
           </motion.div>

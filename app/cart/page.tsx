@@ -132,7 +132,7 @@ export default function CartPage() {
                 <div className="divide-y divide-forest-50 p-6 md:p-8 space-y-6">
                   {cartItems.map((item) => (
                     <div
-                      key={`${item.productId}-${item.selectedPackSize}`}
+                      key={`${item.productId}-${item.selectedVariant || "default"}-${item.selectedPackSize}`}
                       className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-6 first:pt-0"
                     >
                       {/* Product Thumbnail & Details */}
@@ -148,9 +148,16 @@ export default function CartPage() {
                           <h4 className="font-semibold text-forest-900 text-base truncate leading-snug">
                             {item.productName}
                           </h4>
-                          <span className="inline-block mt-1.5 px-3 py-1 rounded-full bg-gold-100 text-[10px] font-extrabold text-gold-700 uppercase tracking-widest">
-                            {item.selectedPackSize}
-                          </span>
+                          <div className="flex flex-wrap items-center gap-1.5 mt-1.5">
+                            {item.selectedVariant && (
+                              <span className="inline-block px-2.5 py-0.5 rounded-full bg-forest-100 text-[10px] font-bold text-forest-800">
+                                {item.variantLabel ? `${item.variantLabel}: ` : ""}{item.selectedVariant}
+                              </span>
+                            )}
+                            <span className="inline-block px-3 py-0.5 rounded-full bg-gold-100 text-[10px] font-extrabold text-gold-700 uppercase tracking-widest">
+                              {item.selectedPackSize}
+                            </span>
+                          </div>
                         </div>
                       </div>
 
@@ -165,7 +172,7 @@ export default function CartPage() {
                           <div className="flex items-center bg-forest-50 rounded-xl p-0.5 border border-forest-100/20">
                             <button
                               onClick={() =>
-                                updateQuantity(item.productId, item.selectedPackSize, item.quantity - 1)
+                                updateQuantity(item.productId, item.selectedPackSize, item.quantity - 1, item.selectedVariant)
                               }
                               type="button"
                               className="w-8 h-8 flex items-center justify-center text-forest-800 hover:bg-forest-100 rounded-lg"
@@ -177,7 +184,7 @@ export default function CartPage() {
                             </span>
                             <button
                               onClick={() =>
-                                updateQuantity(item.productId, item.selectedPackSize, item.quantity + 1)
+                                updateQuantity(item.productId, item.selectedPackSize, item.quantity + 1, item.selectedVariant)
                               }
                               type="button"
                               className="w-8 h-8 flex items-center justify-center text-forest-800 hover:bg-forest-100 rounded-lg"
@@ -188,7 +195,7 @@ export default function CartPage() {
 
                           {/* Delete Button */}
                           <button
-                            onClick={() => removeFromCart(item.productId, item.selectedPackSize)}
+                            onClick={() => removeFromCart(item.productId, item.selectedPackSize, item.selectedVariant)}
                             type="button"
                             className="w-9 h-9 rounded-xl bg-red-50 hover:bg-red-100 text-red-500 hover:text-red-700 flex items-center justify-center transition-colors"
                             aria-label={`Remove ${item.productName}`}
@@ -219,83 +226,93 @@ export default function CartPage() {
               </div>
             </div>
 
-            {/* Customer Checkout Form */}
+            {/* Checkout Form & Direct WhatsApp Submit */}
             <div className="lg:col-span-5">
-              <div className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-forest-100/40">
-                <h3 className="font-heading text-2xl font-bold text-forest-900 mb-6">
-                  Customer Details
-                </h3>
+              <div className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-forest-100/40 sticky top-28">
+                <div className="mb-6 pb-6 border-b border-forest-50">
+                  <h3 className="font-heading text-xl font-bold text-forest-900 mb-1">
+                    Customer Details
+                  </h3>
+                  <p className="text-xs text-charcoal/60">
+                    Enter your contact details to prepare your order for direct WhatsApp confirmation.
+                  </p>
+                </div>
 
-                <form onSubmit={handleCheckout} className="space-y-5">
-                  {/* Name Input */}
+                <form onSubmit={handleCheckout} className="space-y-4">
                   <div>
-                    <label htmlFor="name" className="text-xs font-bold text-forest-800 uppercase tracking-wider block mb-2">
+                    <label className="text-xs font-bold text-forest-900 uppercase tracking-wider block mb-1.5">
                       Full Name *
                     </label>
                     <input
-                      id="name"
                       type="text"
                       name="name"
                       value={fields.name}
                       onChange={handleInputChange}
-                      className={`w-full px-4 py-3.5 rounded-2xl bg-forest-50/40 border text-sm text-charcoal outline-none focus:bg-white transition-all ${
-                        errors.name ? "border-red-400 focus:border-red-500" : "border-forest-100/50 focus:border-forest-800"
+                      placeholder="e.g. Ramesh Kumar"
+                      className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${
+                        errors.name
+                          ? "border-red-400 bg-red-50/30"
+                          : "border-forest-100 bg-forest-50/20 focus:border-forest-800"
                       }`}
-                      placeholder="e.g. Rahul Sharma"
                     />
-                    {errors.name && <span className="text-red-500 text-xs mt-1 block">{errors.name}</span>}
+                    {errors.name && (
+                      <p className="text-red-500 text-xs mt-1">{errors.name}</p>
+                    )}
                   </div>
 
-                  {/* Phone Input */}
                   <div>
-                    <label htmlFor="phone" className="text-xs font-bold text-forest-800 uppercase tracking-wider block mb-2">
-                      Phone Number *
+                    <label className="text-xs font-bold text-forest-900 uppercase tracking-wider block mb-1.5">
+                      Phone Number (WhatsApp) *
                     </label>
                     <input
-                      id="phone"
                       type="tel"
                       name="phone"
                       value={fields.phone}
                       onChange={handleInputChange}
-                      className={`w-full px-4 py-3.5 rounded-2xl bg-forest-50/40 border text-sm text-charcoal outline-none focus:bg-white transition-all ${
-                        errors.phone ? "border-red-400 focus:border-red-500" : "border-forest-100/50 focus:border-forest-800"
+                      placeholder="e.g. +91 98765 43210"
+                      className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${
+                        errors.phone
+                          ? "border-red-400 bg-red-50/30"
+                          : "border-forest-100 bg-forest-50/20 focus:border-forest-800"
                       }`}
-                      placeholder="e.g. +91 9876543210"
                     />
-                    {errors.phone && <span className="text-red-500 text-xs mt-1 block">{errors.phone}</span>}
+                    {errors.phone && (
+                      <p className="text-red-500 text-xs mt-1">{errors.phone}</p>
+                    )}
                   </div>
 
-                  {/* City Input */}
                   <div>
-                    <label htmlFor="city" className="text-xs font-bold text-forest-800 uppercase tracking-wider block mb-2">
-                      City / Town *
+                    <label className="text-xs font-bold text-forest-900 uppercase tracking-wider block mb-1.5">
+                      Delivery City / Town *
                     </label>
                     <input
-                      id="city"
                       type="text"
                       name="city"
                       value={fields.city}
                       onChange={handleInputChange}
-                      className={`w-full px-4 py-3.5 rounded-2xl bg-forest-50/40 border text-sm text-charcoal outline-none focus:bg-white transition-all ${
-                        errors.city ? "border-red-400 focus:border-red-500" : "border-forest-100/50 focus:border-forest-800"
+                      placeholder="e.g. Coimbatore, Chennai, Pollachi"
+                      className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${
+                        errors.city
+                          ? "border-red-400 bg-red-50/30"
+                          : "border-forest-100 bg-forest-50/20 focus:border-forest-800"
                       }`}
-                      placeholder="e.g. Chennai"
                     />
-                    {errors.city && <span className="text-red-500 text-xs mt-1 block">{errors.city}</span>}
+                    {errors.city && (
+                      <p className="text-red-500 text-xs mt-1">{errors.city}</p>
+                    )}
                   </div>
 
-                  {/* Submit Button */}
-                  <div className="pt-4 border-t border-forest-50">
+                  <div className="pt-4 border-t border-forest-50 mt-6">
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full py-4 bg-[#25D366] hover:bg-[#1ebd5b] disabled:bg-gray-300 text-white rounded-2xl font-bold text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-3 shadow-md hover:shadow-lg hover:-translate-y-0.5"
+                      className="w-full py-4 bg-[#25D366] hover:bg-[#1ebd5b] text-white rounded-2xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all disabled:opacity-50"
                     >
-                      <FaWhatsapp className="w-5 h-5 shrink-0" />
-                      {isSubmitting ? "Redirecting..." : "Continue on WhatsApp"}
+                      <FaWhatsapp className="w-5 h-5" />
+                      {isSubmitting ? "Opening WhatsApp..." : "Send Order via WhatsApp"}
                     </button>
-                    <p className="text-center text-[10px] text-charcoal/40 mt-3 leading-relaxed">
-                      Clicking this button compiles your order details and opens WhatsApp to finalize details and shipping address with us directly.
+                    <p className="text-[11px] text-charcoal/50 text-center mt-3">
+                      Your order will be sent to our team on WhatsApp for final payment & tracking.
                     </p>
                   </div>
                 </form>

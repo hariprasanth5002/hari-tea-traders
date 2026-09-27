@@ -26,6 +26,7 @@ export default function ProductDetailsModal({
 }: ProductDetailsModalProps) {
   const { addToCart } = useCart();
   const [selectedSize, setSelectedSize] = useState<PackSize | null>(null);
+  const [selectedVariant, setSelectedVariant] = useState<string>("");
   const [quantity, setQuantity] = useState<number>(1);
   const [cartSuccess, setCartSuccess] = useState<boolean>(false);
 
@@ -33,6 +34,7 @@ export default function ProductDetailsModal({
   useEffect(() => {
     if (product && product.availablePackSizes.length > 0) {
       setSelectedSize(product.availablePackSizes[0]);
+      setSelectedVariant(product.variants && product.variants.length > 0 ? product.variants[0] : "");
       setQuantity(1);
     }
   }, [product]);
@@ -51,6 +53,8 @@ export default function ProductDetailsModal({
       selectedPackSize: selectedSize.size,
       price: selectedSize.price,
       image: product.image,
+      selectedVariant: product.variants && product.variants.length > 0 ? selectedVariant : undefined,
+      variantLabel: product.variantLabel,
     });
     setCartSuccess(true);
     setTimeout(() => setCartSuccess(false), 2000);
@@ -61,7 +65,9 @@ export default function ProductDetailsModal({
       product.name,
       selectedSize.size,
       quantity,
-      selectedSize.price
+      selectedSize.price,
+      product.variants && product.variants.length > 0 ? selectedVariant : undefined,
+      product.variantLabel
     );
     const link = getWhatsAppLink(message);
     window.open(link, "_blank", "noopener,noreferrer");
@@ -73,6 +79,7 @@ export default function ProductDetailsModal({
       onProductSelect(newProduct);
       // Reset state for new product
       setSelectedSize(newProduct.availablePackSizes[0]);
+      setSelectedVariant(newProduct.variants && newProduct.variants.length > 0 ? newProduct.variants[0] : "");
       setQuantity(1);
       // Scroll to top of modal content
       const modalContent = document.getElementById("modal-scroll-area");
@@ -113,7 +120,7 @@ export default function ProductDetailsModal({
         >
           <div className="p-5 md:p-8 flex-1">
             
-            {/* Header info for mobile (Category & Title) - Mostly hidden on desktop since it's on image */}
+            {/* Header info for mobile (Category & Title) */}
             <div className="md:hidden mb-6 border-b border-forest-50 pb-4">
               <span className="text-xs font-bold text-gold-600 uppercase tracking-widest block mb-1">
                 {product.category}
@@ -122,6 +129,31 @@ export default function ProductDetailsModal({
                 {product.name}
               </h2>
             </div>
+
+            {/* In-modal Variant Selector */}
+            {product.variants && product.variants.length > 0 && (
+              <div className="mb-6 bg-forest-50/60 p-4 rounded-2xl border border-forest-100/30">
+                <label className="text-xs font-bold text-forest-900 uppercase tracking-wider block mb-2">
+                  Select {product.variantLabel || "Option"}:
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {product.variants.map((v) => (
+                    <button
+                      key={v}
+                      type="button"
+                      onClick={() => setSelectedVariant(v)}
+                      className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all duration-200 ${
+                        selectedVariant === v
+                          ? "bg-forest-900 text-white shadow-sm ring-2 ring-gold-400"
+                          : "bg-white text-forest-800 hover:bg-forest-100 border border-forest-200"
+                      }`}
+                    >
+                      {v}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
             
             <ProductStory 
               story={product.story} 
@@ -146,32 +178,43 @@ export default function ProductDetailsModal({
 
           {/* Sticky Bottom Actions */}
           <div className="sticky bottom-0 p-3 md:p-4 bg-white/95 backdrop-blur-md border-t border-forest-100 shadow-[0_-10px_30px_rgba(0,0,0,0.05)] z-20 shrink-0">
-            <div className="flex flex-col lg:flex-row gap-3 justify-between lg:items-center">
+            <div className="flex flex-col gap-3">
               
-              {/* Top/Left Row: Size & Qty */}
+              {/* Top Row: Variant (if any), Size & Qty */}
               <div className="flex flex-wrap items-center justify-between gap-3">
-                <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-bold text-forest-800 uppercase tracking-wider">
-                    Size:
-                  </span>
-                  <div className="flex flex-wrap gap-1.5">
-                    {product.availablePackSizes.map((packSize) => (
-                      <button
-                        key={packSize.size}
-                        type="button"
-                        onClick={() => setSelectedSize(packSize)}
-                        className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all border ${
-                          selectedSize.size === packSize.size
-                            ? "bg-forest-900 border-forest-900 text-white shadow-md"
-                            : "bg-forest-50/60 border-forest-100 text-forest-800 hover:bg-forest-100"
-                        }`}
-                      >
-                        {packSize.size}
-                      </button>
-                    ))}
+                <div className="flex flex-wrap items-center gap-3">
+                  {/* Size buttons */}
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] font-bold text-forest-800 uppercase tracking-wider">
+                      Size:
+                    </span>
+                    <div className="flex flex-wrap gap-1.5">
+                      {product.availablePackSizes.map((packSize) => (
+                        <button
+                          key={packSize.size}
+                          type="button"
+                          onClick={() => setSelectedSize(packSize)}
+                          className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all border ${
+                            selectedSize.size === packSize.size
+                              ? "bg-forest-900 border-forest-900 text-white shadow-md"
+                              : "bg-forest-50/60 border-forest-100 text-forest-800 hover:bg-forest-100"
+                          }`}
+                        >
+                          {packSize.size}
+                        </button>
+                      ))}
+                    </div>
                   </div>
+
+                  {/* Quick Variant indicator if selected */}
+                  {selectedVariant && (
+                    <span className="text-xs bg-gold-100 text-gold-800 font-bold px-2 py-1 rounded-md border border-gold-200">
+                      {product.variantLabel ? `${product.variantLabel}: ` : ""}{selectedVariant}
+                    </span>
+                  )}
                 </div>
 
+                {/* Qty counter */}
                 <div className="flex items-center bg-forest-50 rounded-lg p-0.5 border border-forest-100 shadow-inner">
                   <button
                     onClick={handleDecrease}
@@ -193,9 +236,9 @@ export default function ProductDetailsModal({
                 </div>
               </div>
 
-              {/* Bottom/Right Row: Price & Actions */}
-              <div className="flex items-center justify-between lg:justify-end gap-3">
-                <div className="flex flex-col items-start lg:items-end">
+              {/* Bottom Row: Price & Actions */}
+              <div className="flex items-center justify-between gap-3 pt-1 border-t border-forest-50">
+                <div className="flex flex-col items-start">
                   <span className="text-[10px] text-charcoal/50 font-semibold leading-none mb-1">
                     Total
                   </span>

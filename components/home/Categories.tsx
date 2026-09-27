@@ -8,7 +8,7 @@ const categories = [
   {
     id: "tea",
     name: "Premium Tea",
-    description: "Manika, Water Fall, BOP Grade, Green, and Flavored Teas.",
+    description: "Manika, Water Fall, BOB Grade, Green, and Flavoured Teas.",
     image: "/images/products/manika rd tea.png",
     link: "/products#tea",
     color: "bg-forest-900",

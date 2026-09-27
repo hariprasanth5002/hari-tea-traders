@@ -17,6 +17,9 @@ export default function ProductCard({ product, onViewDetails }: ProductCardProps
   
   // States
   const [selectedSize, setSelectedSize] = useState<PackSize>(product.availablePackSizes[0]);
+  const [selectedVariant, setSelectedVariant] = useState<string>(
+    product.variants && product.variants.length > 0 ? product.variants[0] : ""
+  );
   const [quantity, setQuantity] = useState<number>(1);
   const [cartSuccess, setCartSuccess] = useState<boolean>(false);
 
@@ -32,6 +35,8 @@ export default function ProductCard({ product, onViewDetails }: ProductCardProps
       selectedPackSize: selectedSize.size,
       price: selectedSize.price,
       image: product.image,
+      selectedVariant: product.variants && product.variants.length > 0 ? selectedVariant : undefined,
+      variantLabel: product.variantLabel,
     });
     setCartSuccess(true);
     setTimeout(() => setCartSuccess(false), 2000);
@@ -42,7 +47,9 @@ export default function ProductCard({ product, onViewDetails }: ProductCardProps
       product.name,
       selectedSize.size,
       quantity,
-      selectedSize.price
+      selectedSize.price,
+      product.variants && product.variants.length > 0 ? selectedVariant : undefined,
+      product.variantLabel
     );
     const link = getWhatsAppLink(message);
     window.open(link, "_blank", "noopener,noreferrer");
@@ -87,9 +94,34 @@ export default function ProductCard({ product, onViewDetails }: ProductCardProps
         </div>
 
         {/* Short Description */}
-        <p className="text-charcoal/70 text-sm leading-relaxed mb-6 flex-1 line-clamp-2">
+        <p className="text-charcoal/70 text-sm leading-relaxed mb-5 flex-1 line-clamp-2">
           {product.shortDescription}
         </p>
+
+        {/* Variant Selector (e.g. Flavour or Form) */}
+        {product.variants && product.variants.length > 0 && (
+          <div className="mb-4 bg-forest-50/40 p-3 rounded-2xl border border-forest-100/20">
+            <label className="text-xs font-semibold text-forest-900 uppercase tracking-wider block mb-2">
+              Select {product.variantLabel || "Option"}:
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {product.variants.map((v) => (
+                <button
+                  key={v}
+                  type="button"
+                  onClick={() => setSelectedVariant(v)}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all duration-200 ${
+                    selectedVariant === v
+                      ? "bg-forest-800 text-white shadow-sm ring-2 ring-gold-400"
+                      : "bg-white text-forest-800 hover:bg-forest-100 border border-forest-200"
+                  }`}
+                >
+                  {v}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Weight / Pack Size Selector */}
         <div className="mb-6">

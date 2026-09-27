@@ -9,19 +9,31 @@ export interface CartItem {
   selectedPackSize: string; // e.g., "250g", "500g"
   price: number;            // Price of the selected pack size
   image: string;            // Product image path
+  selectedVariant?: string; // e.g., "Ginger", "Powdered", "Masala"
+  variantLabel?: string;    // e.g., "Flavour", "Form"
 }
 
 interface CartContextType {
   cartItems: CartItem[];
   addToCart: (item: CartItem) => void;
-  removeFromCart: (productId: string, selectedPackSize: string) => void;
-  updateQuantity: (productId: string, selectedPackSize: string, quantity: number) => void;
+  removeFromCart: (productId: string, selectedPackSize: string, selectedVariant?: string) => void;
+  updateQuantity: (productId: string, selectedPackSize: string, quantity: number, selectedVariant?: string) => void;
   clearCart: () => void;
   cartCount: number;
   cartSubtotal: number;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
+
+const isSameItem = (
+  item: CartItem,
+  productId: string,
+  selectedPackSize: string,
+  selectedVariant?: string
+) =>
+  item.productId === productId &&
+  item.selectedPackSize === selectedPackSize &&
+  (item.selectedVariant || "") === (selectedVariant || "");
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -52,10 +64,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const addToCart = (newItem: CartItem) => {
     setCartItems((prevItems) => {
-      const existingItemIndex = prevItems.findIndex(
-        (item) =>
-          item.productId === newItem.productId &&
-          item.selectedPackSize === newItem.selectedPackSize
+      const existingItemIndex = prevItems.findIndex((item) =>
+        isSameItem(item, newItem.productId, newItem.selectedPackSize, newItem.selectedVariant)
       );
 
       if (existingItemIndex > -1) {
@@ -70,22 +80,27 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
-  const removeFromCart = (productId: string, selectedPackSize: string) => {
+  const removeFromCart = (productId: string, selectedPackSize: string, selectedVariant?: string) => {
     setCartItems((prevItems) =>
       prevItems.filter(
-        (item) => !(item.productId === productId && item.selectedPackSize === selectedPackSize)
+        (item) => !isSameItem(item, productId, selectedPackSize, selectedVariant)
       )
     );
   };
 
-  const updateQuantity = (productId: string, selectedPackSize: string, quantity: number) => {
+  const updateQuantity = (
+    productId: string,
+    selectedPackSize: string,
+    quantity: number,
+    selectedVariant?: string
+  ) => {
     if (quantity <= 0) {
-      removeFromCart(productId, selectedPackSize);
+      removeFromCart(productId, selectedPackSize, selectedVariant);
       return;
     }
     setCartItems((prevItems) =>
       prevItems.map((item) =>
-        item.productId === productId && item.selectedPackSize === selectedPackSize
+        isSameItem(item, productId, selectedPackSize, selectedVariant)
           ? { ...item, quantity }
           : item
       )
